@@ -1,17 +1,16 @@
-import Foundation
+import UIKit
 
-struct GameRecord: Codable {
-    let correct: Int
-    let total: Int
+struct GameRecord: Codable, Comparable {
+    let correctAnswers: Int
+    let totalQuestions: Int
     let date: Date
     
-    func isBetter(_ another: GameRecord) -> Bool {
-        return correct < another.correct
+    static func <(lhs: GameRecord, rhs: GameRecord) -> Bool {
+        return lhs.correctAnswers < rhs.correctAnswers
     }
     
-    func toString() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd.MM.yy HH:mm"
-        return "\(correct)/\(total) (\(dateFormatter.string(from: date)))"
+    static func >(lhs: GameRecord, rhs: GameRecord) -> Bool {
+        return lhs.correctAnswers > rhs.correctAnswers
     }
+    
 }
