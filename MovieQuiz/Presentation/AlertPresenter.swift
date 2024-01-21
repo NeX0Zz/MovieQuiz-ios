@@ -1,12 +1,12 @@
 import UIKit
 
-class AlertPresenter: AlertPresenterProtocol{
+final class AlertPresenter: AlertPresenterProtocol{
     
     weak var delegate : AlertPresenterDelegate?
     
     private var alertModel : AlertModel?
     
-    init(delegate: AlertPresenterDelegate? = nil) {
+    init(delegate: AlertPresenterDelegate?) {
         self.delegate = delegate
     }
     
@@ -37,4 +37,3 @@ class AlertPresenter: AlertPresenterProtocol{
         delegate?.willShowAlert(alert: alert)
     }
 }
-
