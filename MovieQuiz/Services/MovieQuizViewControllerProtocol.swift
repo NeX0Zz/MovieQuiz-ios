@@ -1,6 +1,6 @@
 import UIKit
 
-protocol MovieQuizViewControllerProtocol:UIViewController, AnyObject {
+protocol MovieQuizViewControllerProtocol: UIViewController, AnyObject {
     func show(quizStepViewModel: QuizStepViewModel)
     func didReceiveNextQuestion(question: QuizQuestion?)
     func handleEnableAnswersButtons()

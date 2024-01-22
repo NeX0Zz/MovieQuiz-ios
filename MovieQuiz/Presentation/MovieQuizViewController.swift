@@ -27,12 +27,6 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
         presenter = MovieQuizPresenter(viewController: self)
         presenter.statisticService = StatisticServiceImplementation()
         showLoadingIndicator()
-        
-        counterLabel.font = UIFont(name: "YSDisplay-Medium", size: 20)
-        questionTitleLabel.font = UIFont(name: "YSDisplay-Medium", size: 20)
-        yesAnswerButton.titleLabel?.font = UIFont(name: "YSDisplay-Medium", size: 20)
-        noAnswerButton.titleLabel?.font = UIFont(name: "YSDisplay-Medium", size: 20)
-        questionLabel.font = UIFont(name: "YSDisplay-Bold", size: 23)
     }
     
     // MARK: - Funcs

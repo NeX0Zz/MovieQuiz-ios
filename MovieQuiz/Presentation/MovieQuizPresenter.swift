@@ -32,7 +32,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate, AlertPresenterDelegate 
         }
     }
     
-    func showQuizResults(){
+    private func showQuizResults(){
         let messageToShow = createMessageToShowInAlert()
         let alertModel = AlertModel(title: "Этот раунд окончен!", text: messageToShow, buttonText: "Сыграть ещё раз",completion: { [weak self] in
             self?.correctAnswers = 0
@@ -42,7 +42,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate, AlertPresenterDelegate 
         self.alertPresenter?.showAlert(alertModel: alertModel)
     }
     
-    func showNetworkError(message: String) {
+    private func showNetworkError(message: String) {
         viewController?.hideLoadingIndicator()
         let alertModel = AlertModel(title: "Ошибка",text: message,buttonText: "Попробовать еще раз") {
             [weak self] in
@@ -58,7 +58,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate, AlertPresenterDelegate 
         alertPresenter?.showAlert(alertModel: alertModel )
     }
     
-    func showAnswerResult(isCorrect: Bool) {
+    private func showAnswerResult(isCorrect: Bool) {
         var color = UIColor(resource: .ypRed).cgColor
         if isCorrect {
             correctAnswers += 1
@@ -75,7 +75,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate, AlertPresenterDelegate 
         }
     }
     
-    func createMessageToShowInAlert() -> String{
+    private func createMessageToShowInAlert() -> String{
         let recordToShow = statisticService?.bestGame
         guard let gamesCount = statisticService?.gamesCount else {return "0"}
         guard let recordCorrectAnswers = recordToShow?.correctAnswers else {return "0"}
@@ -93,7 +93,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate, AlertPresenterDelegate 
         return messageToShow
     }
     
-    func questionFactoryy(){
+    private func questionFactoryy(){
         questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
     }
     
@@ -106,26 +106,26 @@ final class MovieQuizPresenter: QuestionFactoryDelegate, AlertPresenterDelegate 
         showNetworkError(message: error.localizedDescription)
     }
     
-    func convert(model: QuizQuestion) -> QuizStepViewModel {
+    private func convert(model: QuizQuestion) -> QuizStepViewModel {
         return QuizStepViewModel(
             image: UIImage(data: model.image) ?? UIImage(),
             question: model.text,
             questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)")
     }
     
-    func isLastQuestion() -> Bool {
+    private func isLastQuestion() -> Bool {
         currentQuestionIndex == questionsAmount - 1
     }
     
-    func restartGame(){
+    private func restartGame(){
         currentQuestionIndex = 0
     }
     
-    func switchToNextQuestion(){
+    private func switchToNextQuestion(){
         currentQuestionIndex += 1
     }
     
-    func didAnswer(isYes: Bool) {
+    private func didAnswer(isYes: Bool) {
         guard let currentQuestion = currentQuestion else {
             return
         }
@@ -151,7 +151,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate, AlertPresenterDelegate 
         }
     }
     
-    func showNextQuestionOrResults() {
+    private func showNextQuestionOrResults() {
         if self.isLastQuestion() {
             statisticService?.store(correct: correctAnswers, total: questionsAmount)
             showQuizResults()
