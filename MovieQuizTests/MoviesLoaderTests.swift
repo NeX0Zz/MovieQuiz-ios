@@ -4,40 +4,34 @@ import XCTest
 
 class MoviesLoaderTests: XCTestCase {
     func testSucessLoading() throws {
-        //Given
         let stubNetworkClient = StubNetworkClient(emulateError: false)
         let loader = MoviesLoader(networkClient: stubNetworkClient)
-
-        //When
-
+        
+        
         let expectation = expectation (description: "Loading expectation")
-
+        
         loader.loadMovies {result in
-            //Then
             switch result {
             case .success(let movies):
-
+                
                 XCTAssertEqual(movies.items.count, 2)
                 expectation.fulfill()
             case .failure(_):
-
-
+                
+                
                 XCTFail("Unexpected failure")
             }
         }
         waitForExpectations(timeout: 1)
     }
-
+    
     func testFailureLoading() throws {
-        // Given
-        let stubNetworkClient = StubNetworkClient(emulateError: true) // говорим, что хотим эмулировать ошибку
+        let stubNetworkClient = StubNetworkClient(emulateError: true)
         let loader = MoviesLoader(networkClient: stubNetworkClient)
-
-        // When
+        
         let expectation = expectation(description: "Loading expectation")
-
+        
         loader.loadMovies { result in
-            // Then
             switch result {
             case .failure(let error):
                 XCTAssertNotNil(error)
@@ -46,18 +40,18 @@ class MoviesLoaderTests: XCTestCase {
                 XCTFail("Unexpected failure")
             }
         }
-
+        
         waitForExpectations(timeout: 1)
     }
-
+    
     struct StubNetworkClient: NetworkRouting {
-
-        enum TestError: Error { // тестовая ошибка
+        
+        enum TestError: Error {
             case test
         }
-
-        let emulateError: Bool // этот параметр нужен, чтобы заглушка эмулировала либо ошибку сети, либо успешный ответ
-
+        
+        let emulateError: Bool
+        
         func fetch(url: URL, handler: @escaping (Result<Data, Error>) -> Void) {
             if emulateError {
                 handler(.failure(TestError.test))
@@ -65,7 +59,7 @@ class MoviesLoaderTests: XCTestCase {
                 handler(.success(expectedResponse))
             }
         }
-
+        
         private var expectedResponse: Data {
         """
         {
