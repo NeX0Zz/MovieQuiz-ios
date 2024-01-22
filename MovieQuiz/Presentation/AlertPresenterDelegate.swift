@@ -1,6 +1,5 @@
 import UIKit
 
-protocol AlertPresenterDelegate: AnyObject{
-    
+protocol AlertPresenterDelegate: AnyObject {
     func willShowAlert(alert: UIViewController)
 }

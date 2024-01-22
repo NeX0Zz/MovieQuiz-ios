@@ -1,7 +1,5 @@
 import XCTest
 
-
-
 class MovieQuizUITests: XCTestCase {
 
     var app: XCUIApplication!

@@ -35,13 +35,16 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
         questionLabel.font = UIFont(name: "YSDisplay-Bold", size: 23)
     }
     
-    // MARK: - Func
-
+    // MARK: - Funcs
+    
+    func willShowAlert(alert: UIViewController) {
+        self.present(alert, animated: true){
+        }
+    }
+    
     func didReceiveNextQuestion(question: QuizQuestion?) {
         presenter.didReceiveNextQuestion(question: question)
         }
-    
-    // MARK: - Private funcs
     
     func show(quizStepViewModel: QuizStepViewModel) {
         previewImageView.image = quizStepViewModel.image

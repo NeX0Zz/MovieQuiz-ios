@@ -1,7 +1,11 @@
 import XCTest
 @testable import MovieQuiz
 
-final class MovieQuizViewControllerMock: MovieQuizViewControllerProtocol {
+final class MovieQuizViewControllerMock: UIViewController, MovieQuizViewControllerProtocol {
+    func configureImageFrame(color: CGColor) {
+        
+    }
+    
     func show(quizStepViewModel: QuizStepViewModel){
         
     }

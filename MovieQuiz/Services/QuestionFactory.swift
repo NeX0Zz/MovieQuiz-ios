@@ -1,6 +1,6 @@
 import Foundation
 
-class QuestionFactory : QuestionFactoryProtocol{
+class QuestionFactory : QuestionFactoryProtocol {
     
     private let moviesLoader: MoviesLoading
     weak var delegate: QuestionFactoryDelegate?
