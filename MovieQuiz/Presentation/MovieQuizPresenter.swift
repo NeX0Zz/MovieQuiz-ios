@@ -1,9 +1,9 @@
 import UIKit
 
-final class MovieQuizPresenter {
-    
+final class MovieQuizPresenter: QuestionFactoryDelegate {
     
     // MARK: - Properties
+    
     private var alertPresenter : AlertPresenterProtocol?
     private var statisticService : StatisticService?
     private var currentQuestion: QuizQuestion?
@@ -12,7 +12,27 @@ final class MovieQuizPresenter {
     var correctAnswers = 0
     weak var viewController: MovieQuizViewController?
     var questionFactory: QuestionFactoryProtocol?
+    
+    init(viewController: MovieQuizViewController) {
+           self.viewController = viewController
+           questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
+           questionFactory?.loadData()
+           viewController.showLoadingIndicator()
+       }
+    
     // MARK: - Func
+    
+    func questionFactoryy(){
+        questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
+    }
+    func didLoadDataFromServer() {
+        viewController?.activityIndicator.isHidden = true
+        questionFactory?.requestNextQuestion()
+    }
+    
+    func didFailToLoadData(with error: Error) {
+        viewController?.showNetworkError(message: error.localizedDescription)
+    }
     
     func convert(model: QuizQuestion) -> QuizStepViewModel {
         return QuizStepViewModel(
