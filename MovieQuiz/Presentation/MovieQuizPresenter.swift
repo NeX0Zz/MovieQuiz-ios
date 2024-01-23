@@ -25,12 +25,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate, AlertPresenterDelegate 
         alertPresenter = AlertPresenter(delegate: self)
     }
     
-    // MARK: - Func
-    
-    func willShowAlert(alert: UIViewController) {
-        self.viewController?.present(alert, animated: true){
-        }
-    }
+    // MARK: - Private funcs
     
     private func showQuizResults(){
         let messageToShow = createMessageToShowInAlert()
@@ -97,15 +92,6 @@ final class MovieQuizPresenter: QuestionFactoryDelegate, AlertPresenterDelegate 
         questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
     }
     
-    func didLoadDataFromServer() {
-        viewController?.hideLoadingIndicator()
-        questionFactory?.requestNextQuestion()
-    }
-    
-    func didFailToLoadData(with error: Error) {
-        showNetworkError(message: error.localizedDescription)
-    }
-    
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
         return QuizStepViewModel(
             image: UIImage(data: model.image) ?? UIImage(),
@@ -133,6 +119,23 @@ final class MovieQuizPresenter: QuestionFactoryDelegate, AlertPresenterDelegate 
         showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
     }
     
+    private func showNextQuestionOrResults() {
+        if self.isLastQuestion() {
+            statisticService?.store(correct: correctAnswers, total: questionsAmount)
+            showQuizResults()
+        } else {
+            self.switchToNextQuestion()
+            questionFactory?.requestNextQuestion()
+        }
+    }
+    
+    // MARK: - Func
+    
+    func willShowAlert(alert: UIViewController) {
+        self.viewController?.present(alert, animated: true){
+        }
+    }
+    
     func yesButtonClicked() {
         didAnswer(isYes: true)
     }
@@ -151,13 +154,13 @@ final class MovieQuizPresenter: QuestionFactoryDelegate, AlertPresenterDelegate 
         }
     }
     
-    private func showNextQuestionOrResults() {
-        if self.isLastQuestion() {
-            statisticService?.store(correct: correctAnswers, total: questionsAmount)
-            showQuizResults()
-        } else {
-            self.switchToNextQuestion()
-            questionFactory?.requestNextQuestion()
-        }
+    func didLoadDataFromServer() {
+        viewController?.hideLoadingIndicator()
+        questionFactory?.requestNextQuestion()
     }
+    
+    func didFailToLoadData(with error: Error) {
+        showNetworkError(message: error.localizedDescription)
+    }
+
 }
