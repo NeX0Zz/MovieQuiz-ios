@@ -9,4 +9,3 @@ protocol MovieQuizViewControllerProtocol: UIViewController, AnyObject {
     func presentNextQuizStepQuestion()
     func configureImageFrame(color: CGColor)
 }
-

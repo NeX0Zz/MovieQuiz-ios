@@ -11,9 +11,9 @@ class MovieQuizUITests: XCTestCase {
         app.launch()
 
         continueAfterFailure = false
-        
+
         continueAfterFailure = false
-        
+
     }
 
     override func tearDownWithError() throws {
@@ -55,7 +55,6 @@ class MovieQuizUITests: XCTestCase {
 
     }
 
-
     func testGameFinish() {
         sleep(2)
         for _ in 1...10 {
@@ -63,14 +62,16 @@ class MovieQuizUITests: XCTestCase {
             sleep(2)
         }
 
+        let app = XCUIApplication()
         let alert = app.alerts["Game"]
 
         XCTAssertTrue(alert.exists)
         XCTAssertTrue(alert.label == "Этот раунд окончен!")
-        XCTAssertTrue(alert.buttons.firstMatch.label == "Сыграть еще раз!")
+        XCTAssertTrue(alert.buttons.firstMatch.label == "Сыграть ещё раз")
     }
 
     func testAlertDismiss() {
+
         sleep(2)
         for _ in 1...10 {
             app.buttons["No"].tap()
@@ -78,7 +79,10 @@ class MovieQuizUITests: XCTestCase {
         }
 
         let alert = app.alerts["Game"]
-        alert.buttons.firstMatch.tap()
+
+        sleep(2)
+
+        alert.buttons["Сыграть ещё раз"].tap()
 
         sleep(2)
 

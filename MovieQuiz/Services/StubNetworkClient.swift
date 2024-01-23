@@ -7,13 +7,13 @@
 
 import Foundation
 struct StubNetworkClient: NetworkRouting {
-    
+
     enum TestError: Error { // тестовая ошибка
     case test
     }
-    
+
     let emulateError: Bool // этот параметр нужен, чтобы заглушка эмулировала либо ошибку сети, либо успешный ответ
-    
+
     func fetch(url: URL, handler: @escaping (Result<Data, Error>) -> Void) {
         if emulateError {
             handler(.failure(TestError.test))
@@ -21,7 +21,7 @@ struct StubNetworkClient: NetworkRouting {
             handler(.success(expectedResponse))
         }
     }
-    
+
     private var expectedResponse: Data {
         """
         {
