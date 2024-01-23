@@ -1,8 +1,8 @@
-import UIKit
+import Foundation
 
 struct AlertModel {
-    let title: String
-    let text: String
-    let buttonText: String
-    let buttonAction: () -> Void
+    var title: String
+    var text: String
+    var buttonText: String
+    var completion: () -> Void
 }
